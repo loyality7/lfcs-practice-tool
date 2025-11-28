@@ -1,0 +1,33 @@
+id: ops_medium_005
+category: operations_deployment
+difficulty: medium
+task: |
+  List all installed packages and save the list to /tmp/{{ random_file }}.
+
+points: 15
+time_limit: 300
+
+setup_commands:
+  - "rm -f /tmp/{{ random_file }} 2>/dev/null || true"
+
+validation:
+  checks:
+    - type: file
+      path: "/tmp/{{ random_file }}"
+      should_exist: true
+      description: "Output file exists"
+    
+    - type: command
+      command: "test -s /tmp/{{ random_file }} && echo 'not_empty' || echo 'empty'"
+      expected_output: "not_empty"
+      description: "File is not empty"
+
+hints:
+  - "On Debian/Ubuntu: dpkg -l > /tmp/{{ random_file }}"
+  - "On RHEL/CentOS: rpm -qa > /tmp/{{ random_file }}"
+  - "Or use: yum list installed (RHEL) or apt list --installed (Debian)"
+
+tags:
+  - operations_deployment
+  - packages
+  - package_management

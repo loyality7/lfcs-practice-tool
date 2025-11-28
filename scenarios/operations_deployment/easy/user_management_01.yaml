@@ -1,0 +1,49 @@
+id: ops_user_001
+category: operations_deployment
+difficulty: easy
+task: |
+  Create a new user account with the following specifications:
+  - Username: john
+  - UID: 1500
+  - Primary group: developers (create if doesn't exist)
+  - Home directory: /home/john
+  - Shell: /bin/bash
+
+points: 10
+time_limit: 300
+
+setup_commands:
+  - "userdel -r john 2>/dev/null || true"
+  - "groupdel developers 2>/dev/null || true"
+
+validation:
+  checks:
+    - type: command
+      command: "id -u john"
+      expected_output: "1500"
+      description: "User john exists with UID 1500"
+    
+    - type: command
+      command: "id -gn john"
+      expected_output: "developers"
+      description: "User primary group is developers"
+    
+    - type: file
+      path: "/home/john"
+      should_exist: true
+      description: "Home directory exists"
+    
+    - type: command
+      command: "getent passwd john | cut -d: -f7"
+      expected_output: "/bin/bash"
+      description: "Shell is /bin/bash"
+
+hints:
+  - "Create the group first: groupadd -g 2000 developers"
+  - "Create user: useradd -u 1500 -g developers -m -s /bin/bash john"
+  - "The -m flag creates the home directory"
+
+tags:
+  - operations_deployment
+  - user_management
+  - basic

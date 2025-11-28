@@ -1,0 +1,33 @@
+id: ops_medium_004
+category: operations_deployment
+difficulty: medium
+task: |
+  Find all processes running as root and save the list to /tmp/{{ random_file }}.
+
+points: 15
+time_limit: 300
+
+setup_commands:
+  - "rm -f /tmp/{{ random_file }} 2>/dev/null || true"
+
+validation:
+  checks:
+    - type: file
+      path: "/tmp/{{ random_file }}"
+      should_exist: true
+      description: "Output file exists"
+    
+    - type: command
+      command: "grep root /tmp/{{ random_file }}"
+      regex_match: "root"
+      description: "File contains root processes"
+
+hints:
+  - "Use 'ps aux | grep ^root' to find root processes"
+  - "Or use 'ps -u root'"
+  - "Redirect output with > to save to a file"
+
+tags:
+  - operations_deployment
+  - processes
+  - ps

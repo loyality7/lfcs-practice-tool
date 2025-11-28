@@ -1,0 +1,46 @@
+# LFCS Practice Tool Configuration
+
+general:
+  project_name: "LFCS Practice Tool"
+  version: "1.0.0"
+  default_user: "student"
+
+docker:
+  images:
+    ubuntu: "lfcs-practice-ubuntu:latest"
+    centos: "lfcs-practice-centos:latest"
+    rocky: "lfcs-practice-rocky:latest"
+  default_image: "lfcs-practice-ubuntu:latest"
+  network_mode: "bridge"
+  cleanup_on_exit: true
+  # Set to true to practice directly on host system (no Docker)
+  local_mode: false
+
+scenarios:
+  min_per_category: 20
+  difficulties:
+    - easy
+    - medium
+    - hard
+  categories:
+    - operations_deployment
+    - networking
+    - storage
+    - essential_commands
+    - users_groups
+
+scoring:
+  passing_threshold: 0.70
+  time_bonus: true
+  partial_credit: true
+
+ai:
+  model: "claude-sonnet-4-20250514"
+  max_tokens: 2000
+  generate_on_demand: true
+  fallback_to_static: true
+
+validation:
+  use_ai_validation: true
+  use_rule_validation: true
+  hybrid_mode: true

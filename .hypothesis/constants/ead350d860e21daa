@@ -1,0 +1,4 @@
+# file: /home/babu/lfcs/lfcs-practice-tool/src/cli/main_cli.py
+# hypothesis_version: 6.148.3
+
+[100, 130, ' | ', '!', '-', '--ai', '--category', '--confirm', '--difficulty', '--distribution', '--version', '...', '=', 'ALL SCENARIOS', 'Available commands', 'DELETE', 'Filters: ', 'OVERALL STATISTICS', 'Reset cancelled.', 'Reset your progress', 'SESSION RESULTS', '[?]', '[E]', '[H]', '[M]', 'centos', 'command', 'easy', 'essential_commands', 'hard', 'lfcs', 'list', 'medium', 'networking', 'reset', 'rocky', 'start', 'stats', 'storage', 'store_true', 'ubuntu', 'users_groups', 'version', '○', '◐', '★', '✓ PASSED', '✗ FAILED']

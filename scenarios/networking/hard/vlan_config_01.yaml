@@ -1,0 +1,35 @@
+id: net_hard_003
+category: networking
+difficulty: hard
+task: |
+  Create a VLAN interface with VLAN ID 100 on eth0 (named eth0.100).
+  Save the interface details to /tmp/{{ random_file }}.
+
+points: 20
+time_limit: 600
+
+setup_commands:
+  - "ip link del eth0.100 2>/dev/null || true"
+  - "rm -f /tmp/{{ random_file }} 2>/dev/null || true"
+
+validation:
+  checks:
+    - type: command
+      command: "ip link show eth0.100"
+      regex_match: "eth0\\.100"
+      description: "VLAN interface exists"
+    
+    - type: file
+      path: "/tmp/{{ random_file }}"
+      should_exist: true
+      description: "VLAN info saved to file"
+
+hints:
+  - "Use 'ip link add link eth0 name eth0.100 type vlan id 100'"
+  - "Bring the interface up: ip link set eth0.100 up"
+  - "Save output: ip link show eth0.100 > /tmp/{{ random_file }}"
+
+tags:
+  - networking
+  - vlan
+  - advanced

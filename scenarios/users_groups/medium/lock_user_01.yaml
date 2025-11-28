@@ -1,0 +1,35 @@
+id: users_medium_004
+category: users_groups
+difficulty: medium
+task: |
+  Create a user 'lockeduser' and then lock their account.
+  Verify the account is locked.
+
+points: 15
+time_limit: 300
+
+setup_commands:
+  - "userdel -r lockeduser 2>/dev/null || true"
+
+validation:
+  checks:
+    - type: command
+      command: "id lockeduser"
+      regex_match: "uid="
+      description: "User lockeduser exists"
+    
+    - type: command
+      command: "passwd -S lockeduser | grep -E 'L|locked'"
+      regex_match: "L|locked"
+      description: "Account is locked"
+
+hints:
+  - "Create user: useradd lockeduser"
+  - "Lock account: passwd -l lockeduser"
+  - "Or use: usermod -L lockeduser"
+  - "Verify with: passwd -S lockeduser"
+
+tags:
+  - users_groups
+  - user_management
+  - security

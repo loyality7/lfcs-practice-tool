@@ -1,0 +1,39 @@
+id: cmd_medium_005
+category: essential_commands
+difficulty: medium
+task: |
+  Create a directory /tmp/{{ random_dir }} with 3 files inside.
+  Create a tar.gz archive of this directory at /tmp/{{ random_dir }}.tar.gz.
+
+points: 15
+time_limit: 300
+
+setup_commands:
+  - "rm -rf /tmp/{{ random_dir }} /tmp/{{ random_dir }}.tar.gz 2>/dev/null || true"
+
+validation:
+  checks:
+    - type: file
+      path: "/tmp/{{ random_dir }}.tar.gz"
+      should_exist: true
+      description: "Archive file exists"
+    
+    - type: command
+      command: "file /tmp/{{ random_dir }}.tar.gz | grep 'gzip compressed'"
+      regex_match: "gzip compressed"
+      description: "File is a gzip compressed archive"
+    
+    - type: command
+      command: "tar -tzf /tmp/{{ random_dir }}.tar.gz | wc -l"
+      regex_match: "[3-9]"
+      description: "Archive contains files"
+
+hints:
+  - "Create directory: mkdir /tmp/{{ random_dir }}"
+  - "Create files: touch /tmp/{{ random_dir }}/file{1..3}.txt"
+  - "Create archive: tar -czf /tmp/{{ random_dir }}.tar.gz -C /tmp archive_test"
+
+tags:
+  - essential_commands
+  - tar
+  - compression

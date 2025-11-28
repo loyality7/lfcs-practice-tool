@@ -1,0 +1,33 @@
+id: ops_hard_004
+category: operations_deployment
+difficulty: hard
+task: |
+  Check the current default systemd boot target and save it to /tmp/{{ random_file }}.
+
+points: 20
+time_limit: 600
+
+setup_commands:
+  - "rm -f /tmp/{{ random_file }} 2>/dev/null || true"
+
+validation:
+  checks:
+    - type: file
+      path: "/tmp/{{ random_file }}"
+      should_exist: true
+      description: "Boot target file exists"
+    
+    - type: command
+      command: "grep 'target' /tmp/{{ random_file }}"
+      regex_match: "target"
+      description: "File contains target information"
+
+hints:
+  - "Use 'systemctl get-default' to check default target"
+  - "Redirect output with > to save to a file"
+
+tags:
+  - operations_deployment
+  - systemd
+  - boot
+  - advanced

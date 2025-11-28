@@ -1,0 +1,36 @@
+# Include configuration files
+include config/*.yaml
+include config/*.yml
+
+# Include database schema
+include database/schema.sql
+
+# Include scenario files
+recursive-include scenarios *.yaml
+recursive-include scenarios *.yml
+
+# Include learning modules
+recursive-include learn_modules *.yaml
+recursive-include learn_modules *.yml
+
+# Include validation scripts
+recursive-include docker/validation_scripts *.sh
+recursive-include docker/validation_scripts *.py
+
+# Include Docker base images (Dockerfiles and build scripts)
+recursive-include docker/base_images *
+include docker/base_images/build_all.sh
+include docker/base_images/README.md
+
+# Include documentation
+include README.md
+include LICENSE
+recursive-include docs *.md
+
+# Exclude unnecessary files
+exclude .env
+exclude .env.example
+global-exclude __pycache__
+global-exclude *.py[cod]
+global-exclude *.so
+global-exclude .DS_Store

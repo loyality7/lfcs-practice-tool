@@ -1,0 +1,31 @@
+id: cmd_easy_003
+category: essential_commands
+difficulty: easy
+task: |
+  Sort the contents of /etc/passwd alphabetically and save to /tmp/{{ random_file }}.
+
+points: 10
+time_limit: 180
+
+setup_commands:
+  - "rm -f /tmp/{{ random_file }} 2>/dev/null || true"
+
+validation:
+  checks:
+    - type: file
+      path: "/tmp/{{ random_file }}"
+      should_exist: true
+      description: "Output file exists"
+    
+    - type: command
+      command: "test -s /tmp/{{ random_file }} && echo 'not_empty' || echo 'empty'"
+      expected_output: "not_empty"
+      description: "File is not empty"
+
+hints:
+  - "Use 'sort /etc/passwd > /tmp/{{ random_file }}'"
+
+tags:
+  - essential_commands
+  - sort
+  - basic

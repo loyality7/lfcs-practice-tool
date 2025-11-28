@@ -1,0 +1,32 @@
+id: users_medium_001
+category: users_groups
+difficulty: medium
+task: |
+  Create a user '{{ random_user }}' with UID 3000, then change their shell to /bin/sh.
+
+points: 15
+time_limit: 300
+
+setup_commands:
+  - "userdel -r {{ random_user }} 2>/dev/null || true"
+
+validation:
+  checks:
+    - type: command
+      command: "id -u {{ random_user }}"
+      expected_output: "3000"
+      description: "User {{ random_user }} exists with UID 3000"
+    
+    - type: command
+      command: "getent passwd {{ random_user }} | cut -d: -f7"
+      expected_output: "/bin/sh"
+      description: "User shell is /bin/sh"
+
+hints:
+  - "Create user: useradd -u 3000 {{ random_user }}"
+  - "Change shell: usermod -s /bin/sh {{ random_user }}"
+
+tags:
+  - users_groups
+  - user_management
+  - usermod

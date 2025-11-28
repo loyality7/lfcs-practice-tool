@@ -1,0 +1,41 @@
+id: users_medium_005
+category: users_groups
+difficulty: medium
+task: |
+  Create a group 'engineering' with GID 4000.
+  Add users 'alice' and 'bob' to this group (create users if needed).
+
+points: 15
+time_limit: 300
+
+setup_commands:
+  - "groupdel engineering 2>/dev/null || true"
+  - "useradd alice 2>/dev/null || true"
+  - "useradd bob 2>/dev/null || true"
+
+validation:
+  checks:
+    - type: command
+      command: "getent group engineering | cut -d: -f3"
+      expected_output: "4000"
+      description: "Group engineering exists with GID 4000"
+    
+    - type: command
+      command: "groups alice | grep engineering"
+      regex_match: "engineering"
+      description: "User alice is in engineering group"
+    
+    - type: command
+      command: "groups bob | grep engineering"
+      regex_match: "engineering"
+      description: "User bob is in engineering group"
+
+hints:
+  - "Create group: groupadd -g 4000 engineering"
+  - "Add users: usermod -aG engineering alice"
+  - "Repeat for bob: usermod -aG engineering bob"
+
+tags:
+  - users_groups
+  - group_management
+  - gid

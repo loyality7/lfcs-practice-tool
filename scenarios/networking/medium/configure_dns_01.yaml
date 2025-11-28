@@ -1,0 +1,29 @@
+id: net_medium_001
+category: networking
+difficulty: medium
+task: |
+  Configure the system to use Google's DNS server (8.8.8.8) as the primary nameserver.
+  Add it to /etc/resolv.conf.
+
+points: 15
+time_limit: 300
+
+setup_commands:
+  - "cp /etc/resolv.conf /etc/resolv.conf.backup 2>/dev/null || true"
+
+validation:
+  checks:
+    - type: command
+      command: "grep 'nameserver 8.8.8.8' /etc/resolv.conf"
+      regex_match: "nameserver 8\\.8\\.8\\.8"
+      description: "DNS server 8.8.8.8 is configured"
+
+hints:
+  - "Edit /etc/resolv.conf file"
+  - "Add a line: nameserver 8.8.8.8"
+  - "You can use echo with >> to append to the file"
+
+tags:
+  - networking
+  - dns
+  - configuration

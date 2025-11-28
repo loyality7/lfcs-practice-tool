@@ -1,0 +1,33 @@
+id: users_group_001
+category: users_groups
+difficulty: easy
+task: |
+  Create a new group named 'developers' with GID 3000.
+  Then add the user 'alice' to this group as a supplementary group.
+
+points: 10
+time_limit: 300
+
+setup_commands:
+  - "groupdel developers 2>/dev/null || true"
+  - "useradd -u 2000 -m alice 2>/dev/null || true"
+
+validation:
+  checks:
+    - type: command
+      command: "getent group developers | cut -d: -f3"
+      expected_output: "3000"
+      description: "Group developers exists with GID 3000"
+    
+    - type: command
+      command: "groups alice | grep developers"
+      regex_match: "developers"
+      description: "User alice is member of developers group"
+
+hints:
+  - "Use 'groupadd' with the -g flag to specify GID"
+  - "Use 'usermod -aG' to add a user to a supplementary group"
+
+tags:
+  - group_management
+  - basic

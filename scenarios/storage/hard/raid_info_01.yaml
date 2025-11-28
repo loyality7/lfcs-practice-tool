@@ -1,0 +1,29 @@
+id: storage_hard_002
+category: storage
+difficulty: hard
+task: |
+  Check if any RAID arrays are configured on the system.
+  Save the RAID status information to /tmp/{{ random_file }}.
+
+points: 20
+time_limit: 600
+
+setup_commands:
+  - "rm -f /tmp/{{ random_file }} 2>/dev/null || true"
+
+validation:
+  checks:
+    - type: file
+      path: "/tmp/{{ random_file }}"
+      should_exist: true
+      description: "RAID status file exists"
+
+hints:
+  - "Check /proc/mdstat for RAID information"
+  - "Use 'cat /proc/mdstat > /tmp/{{ random_file }}'"
+  - "Or use 'mdadm --detail --scan' if mdadm is available"
+
+tags:
+  - storage
+  - raid
+  - advanced

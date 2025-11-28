@@ -1,0 +1,34 @@
+id: ops_medium_001
+category: operations_deployment
+difficulty: medium
+task: |
+  Create a cron job that runs every day at 2 AM to clean /tmp directory.
+  Add the job: 0 2 * * * find /tmp -type f -mtime +7 -delete
+
+points: 15
+time_limit: 300
+
+setup_commands:
+  - "crontab -r 2>/dev/null || true"
+
+validation:
+  checks:
+    - type: command
+      command: "crontab -l | grep 'find /tmp'"
+      regex_match: "find /tmp"
+      description: "Cron job exists"
+    
+    - type: command
+      command: "crontab -l | grep '0 2 \\* \\* \\*'"
+      regex_match: "0 2"
+      description: "Cron job scheduled for 2 AM daily"
+
+hints:
+  - "Use 'crontab -e' to edit crontab"
+  - "Or use: echo '0 2 * * * find /tmp -type f -mtime +7 -delete' | crontab -"
+  - "Verify with: crontab -l"
+
+tags:
+  - operations_deployment
+  - cron
+  - scheduling

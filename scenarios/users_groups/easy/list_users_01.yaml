@@ -1,0 +1,33 @@
+id: users_easy_002
+category: users_groups
+difficulty: easy
+task: |
+  List all users on the system by extracting usernames from /etc/passwd.
+  Save the list to /tmp/{{ random_file }}.
+
+points: 10
+time_limit: 180
+
+setup_commands:
+  - "rm -f /tmp/{{ random_file }} 2>/dev/null || true"
+
+validation:
+  checks:
+    - type: file
+      path: "/tmp/{{ random_file }}"
+      should_exist: true
+      description: "Output file exists"
+    
+    - type: command
+      command: "grep root /tmp/{{ random_file }}"
+      regex_match: "root"
+      description: "File contains root user"
+
+hints:
+  - "Use 'cut -d: -f1 /etc/passwd' to extract usernames"
+  - "Redirect output with > to save to a file"
+
+tags:
+  - users_groups
+  - passwd
+  - basic

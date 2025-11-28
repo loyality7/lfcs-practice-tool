@@ -1,0 +1,140 @@
+id: file_navigation_02
+level: beginner
+title: "File Navigation & Directory Operations"
+description: "Master navigating the Linux filesystem and working with directories"
+estimated_time: 25
+
+lessons:
+  - id: lesson_01
+    title: "Navigating Directories"
+    notes: |
+      🗺️ Moving Around the Filesystem
+      
+      Essential Navigation Commands:
+      ──────────────────────────────
+      • cd <dir>    - Change to directory
+      • cd ..       - Go up one level
+      • cd ~        - Go to home directory
+      • cd -        - Go to previous directory
+      • pwd         - Print working directory
+      
+      Examples:
+      • cd /etc           - Go to /etc
+      • cd ../..          - Go up two levels
+      • cd ~/Documents    - Go to Documents in home
+    
+    exercises:
+      - id: ex_01
+        type: command
+        description: "Navigate to the /tmp directory"
+        command: cd /tmp
+        validation:
+          type: command
+          command: "pwd | grep /tmp"
+        hints:
+          - "Use: cd /tmp"
+        points: 10
+      
+      - id: ex_02
+        type: command
+        description: "Go back to your home directory"
+        command: cd ~
+        validation:
+          type: command
+          command: "pwd | grep -E '/home/|/root'"
+        hints:
+          - "Use: cd ~"
+          - "~ is a shortcut for home"
+        points: 10
+
+  - id: lesson_02
+    title: "Working with Directories"
+    notes: |
+      📁 Directory Management
+      
+      Commands:
+      ─────────
+      • mkdir <name>     - Create directory
+      • mkdir -p <path>  - Create nested directories
+      • rmdir <name>     - Remove empty directory
+      • rm -r <dir>      - Remove directory and contents
+      • tree             - Show directory tree
+      
+      Examples:
+      • mkdir projects
+      • mkdir -p work/2024/january
+      • rmdir old_folder
+    
+    exercises:
+      - id: ex_03
+        type: command
+        description: "Create a directory called 'practice'"
+        command: mkdir practice
+        validation:
+          type: command
+          command: "test -d practice && echo ok"
+        hints:
+          - "Use: mkdir practice"
+        points: 15
+      
+      - id: ex_04
+        type: command
+        description: "Create nested directories: test/sub/deep"
+        command: mkdir -p test/sub/deep
+        validation:
+          type: command
+          command: "test -d test/sub/deep && echo ok"
+        hints:
+          - "Use mkdir with -p flag"
+          - "Type: mkdir -p test/sub/deep"
+        points: 15
+
+  - id: lesson_03
+    title: "Listing Files"
+    notes: |
+      📋 Viewing Directory Contents
+      
+      ls Command Options:
+      ──────────────────
+      • ls          - Basic listing
+      • ls -l       - Long format (detailed)
+      • ls -a       - Show hidden files
+      • ls -lh      - Human-readable sizes
+      • ls -lt      - Sort by modification time
+      • ls -lS      - Sort by size
+      • ls -R       - Recursive listing
+      
+      Understanding ls -l output:
+      -rw-r--r-- 1 user group 1234 Jan 1 12:00 file.txt
+       │  │  │   │  │    │     │      │        └─ filename
+       │  │  │   │  │    │     │      └─ date
+       │  │  │   │  │    │     └─ size
+       │  │  │   │  │    └─ group
+       │  │  │   │  └─ owner
+       │  │  │   └─ links
+       │  │  └─ others permissions
+       │  └─ group permissions
+       └─ owner permissions
+    
+    exercises:
+      - id: ex_05
+        type: command
+        description: "List files in long format"
+        command: ls -l
+        hints:
+          - "Use: ls -l"
+        points: 10
+      
+      - id: ex_06
+        type: command
+        description: "List all files including hidden ones"
+        command: ls -la
+        expected_pattern: "\\."
+        hints:
+          - "Combine -l and -a flags"
+          - "Type: ls -la"
+        points: 10
+
+completion_criteria:
+  min_exercises_completed: 5
+  min_score: 50

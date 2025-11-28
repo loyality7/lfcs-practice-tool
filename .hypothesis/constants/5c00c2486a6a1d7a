@@ -1,0 +1,4 @@
+# file: /home/babu/lfcs/lfcs-practice-tool/src/utils/error_handler.py
+# hypothesis_version: 6.148.3
+
+[100, 1024, ', ', '/', '=', 'Free up disk space', 'Review database logs', 'ai', 'cannot connect', 'check', 'config', 'configuration', 'corrupt', 'critical', 'cwd', 'database', 'disk', 'disk_error', 'disk_free_gb', 'disk_percent_used', 'disk_total_gb', 'disk_used_gb', 'docker', 'docker_available', 'docker_error', 'docker_version', 'error', 'info', 'locked', 'logs', 'malformed', 'no context', 'no scenarios found', 'no space', 'not running', 'parse', 'permission', 'permission denied', 'python_version', 'scenario', 'script not found', 'space', 'specified criteria', 'system', 'timeout', 'unknown', 'validation', 'warning', 'yaml']
