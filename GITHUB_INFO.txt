@@ -1,7 +1,0 @@
-# GitHub Repository Setup
-
-## Description (About section):
-Interactive CLI-based LFCS exam preparation tool with 83+ practice scenarios in isolated Docker containers. Features automatic validation, progress tracking, multi-distribution support (Ubuntu/CentOS/Rocky), and interactive learning modules. Practice Linux system administration safely with immediate feedback.
-
-## Topics (comma-separated):
-linux, lfcs, certification, docker, practice-tool, system-administration, cli, python, training, education, devops, sysadmin, learning, containers, exam-prep, linux-foundation, automation, testing, scenarios, interactive-learning
