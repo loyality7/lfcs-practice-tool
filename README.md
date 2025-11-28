@@ -57,8 +57,12 @@ A comprehensive CLI-based training tool designed to help you prepare for the Lin
 ## Quick Start
 
 ```bash
-# Install the tool
-pip install -e .
+# Install from PyPI
+pip install lfcs
+
+# Clone repository for Docker files and scenarios
+git clone https://github.com/loyality7/lfcs-practice-tool.git
+cd lfcs-practice-tool
 
 # Build Docker base images (required for practice mode)
 cd docker/base_images
@@ -81,21 +85,31 @@ lfcs learn
 - **4GB RAM** minimum
 - **10GB disk space** for Docker images
 
-### Step 1: Install Python Dependencies
+### Step 1: Install from PyPI
 
 ```bash
-# Clone the repository
-git clone https://github.com/loyality7/lfcs-practice-tool.git
-cd lfcs-practice-tool
+# Install the package
+pip install lfcs
 
-# Install in development mode
-pip install -e .
-
-# Or install with all features
-pip install -e ".[dev,ai]"
+# Or install with AI features
+pip install lfcs[ai]
 ```
 
-### Step 2: Build Docker Images
+### Step 2: Clone Repository for Docker Files
+
+```bash
+# Clone to get Docker files, scenarios, and learning modules
+git clone https://github.com/loyality7/lfcs-practice-tool.git
+cd lfcs-practice-tool
+```
+
+**Note**: The PyPI package contains only the Python code. You need the repository for:
+- Docker base image files (`docker/base_images/`)
+- Practice scenarios (`scenarios/`)
+- Learning modules (`learn_modules/`)
+- Validation scripts (`docker/validation_scripts/`)
+
+### Step 3: Build Docker Images
 
 ```bash
 # Build all distribution images (Ubuntu, CentOS, Rocky)
@@ -106,7 +120,7 @@ cd docker/base_images
 ./build_ubuntu_only.sh
 ```
 
-### Step 3: Verify Installation
+### Step 4: Verify Installation
 
 ```bash
 # Check installation
@@ -115,6 +129,23 @@ lfcs --version
 # Run system check
 lfcs start
 # The tool will automatically check prerequisites
+```
+
+### Alternative: Development Installation
+
+For contributors who want to modify the code:
+
+```bash
+# Clone repository
+git clone https://github.com/loyality7/lfcs-practice-tool.git
+cd lfcs-practice-tool
+
+# Install in editable mode
+pip install -e ".[dev,ai]"
+
+# Build Docker images
+cd docker/base_images
+./build_all.sh
 ```
 
 ### Optional: AI Features
