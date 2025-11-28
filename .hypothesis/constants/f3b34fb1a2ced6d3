@@ -1,4 +1,0 @@
-# file: /home/babu/lfcs/lfcs-practice-tool/src/core/models.py
-# hypothesis_version: 6.148.3
-
-['CommandCheck', 'CustomCheck', 'FileCheck', 'Scenario', 'ServiceCheck', 'ValidationRules', 'args', 'category', 'centos', 'checks', 'command', 'content_contains', 'content_regex', 'custom', 'description', 'difficulty', 'distribution', 'easy', 'essential_commands', 'expected_exit_code', 'expected_output', 'file', 'group', 'hard', 'hints', 'id', 'medium', 'networking', 'owner', 'path', 'permissions', 'points', 'regex_match', 'rocky', 'script_path', 'service', 'service_name', 'setup_commands', 'should_be_enabled', 'should_be_running', 'should_exist', 'storage', 'tags', 'task', 'time_limit', 'type', 'ubuntu', 'users_groups', 'validation']

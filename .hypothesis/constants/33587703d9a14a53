@@ -1,4 +1,0 @@
-# file: /home/babu/lfcs/lfcs-practice-tool/src/utils/db_manager.py
-# hypothesis_version: 6.148.3
-
-[0.0, 0.4, 0.5, 0.6, 0.8, 1.0, 80.0, 100, 'CategoryStats', 'DELETE FROM attempts', 'DifficultyStats', 'category', 'database/progress.db', 'database/schema.sql', 'description', 'difficulty', 'duration', 'easy', 'hard', 'id', 'max_score', 'medium', 'name', 'passed', 'r', 'scenario_id', 'score', 'timestamp', 'unlocked_at']

@@ -1,4 +1,0 @@
-# file: /home/babu/lfcs/lfcs-practice-tool/src/docker_manager/container.py
-# hypothesis_version: 6.148.3
-
-['detach', 'image', 'name', 'network_mode', 'privileged', 'remove', 'replace', 'running', 'stdin_open', 'tty', 'utf-8', 'w']

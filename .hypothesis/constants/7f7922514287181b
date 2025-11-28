@@ -1,4 +1,0 @@
-# file: /home/babu/lfcs/lfcs-practice-tool/src/core/scenario_loader.py
-# hypothesis_version: 6.148.3
-
-['.yaml', '.yml', 'File is empty', 'r', 'scenarios']

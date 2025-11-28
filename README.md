@@ -1,5 +1,20 @@
 # LFCS Practice Tool
 
+```
+========================================================================
+                                                                       
+   ██╗     ███████╗ ██████╗███████╗                                   
+   ██║     ██╔════╝██╔════╝██╔════╝                                   
+   ██║     █████╗  ██║     ███████╗                                   
+   ██║     ██╔══╝  ██║     ╚════██║                                   
+   ███████╗██║     ╚██████╗███████║                                   
+   ╚══════╝╚═╝      ╚═════╝╚══════╝                                   
+                                                                       
+        Linux System Administration Practice Tool                
+                                                                       
+========================================================================
+```
+
 > Interactive Linux System Administration Practice Environment with Docker Containers
 
 A comprehensive CLI-based training tool designed to help you prepare for the Linux Foundation Certified System Administrator (LFCS) exam. Practice real-world Linux administration tasks in isolated Docker containers with automatic validation, progress tracking, and interactive learning modules.
