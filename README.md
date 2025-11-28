@@ -431,7 +431,7 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 - **Issues**: [GitHub Issues](https://github.com/loyality7/lfcs-practice-tool/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/loyality7/lfcs-practice-tool/discussions)
-- **Email**: your-email@example.com
+- **Email**: sarathbabuc@duck.com
 
 ## Roadmap
 
@@ -444,6 +444,6 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ---
 
-**Made with care for the Linux community**
+**Made with ❤️ for the Linux community**
 
 **Version**: 1.0.0 | **Author**: C Sarath Babu | **License**: MIT

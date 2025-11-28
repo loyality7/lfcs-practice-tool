@@ -16,22 +16,31 @@ Complete guide to using the LFCS Practice Tool for Linux system administration t
 
 ### First Time Setup
 
-1. **Install the tool**:
+1. **Install the tool from PyPI**:
    ```bash
-   pip install -e .
+   pip install lfcs
    ```
 
-2. **Build Docker images**:
+2. **Clone repository for Docker files and scenarios**:
+   ```bash
+   git clone https://github.com/loyality7/lfcs-practice-tool.git
+   cd lfcs-practice-tool
+   ```
+
+3. **Build Docker images**:
    ```bash
    cd docker/base_images
    ./build_all.sh
+   cd ../..
    ```
 
-3. **Verify installation**:
+4. **Verify installation**:
    ```bash
    lfcs --version
    lfcs --help
    ```
+
+**Note**: The PyPI package contains only Python code. You need the repository for Docker files, scenarios, and learning modules.
 
 ### Understanding the Interface
 

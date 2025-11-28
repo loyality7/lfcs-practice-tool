@@ -44,6 +44,27 @@ cd ../..
 pytest
 ```
 
+### For End Users (Non-Developers)
+
+If you just want to use the tool without modifying code:
+
+```bash
+# Install from PyPI
+pip install lfcs
+
+# Clone repository for Docker files and scenarios
+git clone https://github.com/loyality7/lfcs-practice-tool.git
+cd lfcs-practice-tool
+
+# Build Docker images
+cd docker/base_images
+./build_all.sh
+cd ../..
+
+# Start using
+lfcs start
+```
+
 ### Development Tools
 
 Install recommended tools:
