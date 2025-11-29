@@ -1,0 +1,32 @@
+id: storage_easy_002
+category: storage
+difficulty: easy
+task: |
+  Copy the file /etc/hostname to /tmp/{{ random_file }}.
+
+points: 10
+time_limit: 180
+
+setup_commands:
+  - "rm -f /tmp/{{ random_file }} 2>/dev/null || true"
+
+validation:
+  checks:
+    - type: file
+      path: "/tmp/{{ random_file }}"
+      should_exist: true
+      description: "Backup file exists"
+    
+    - type: command
+      command: "diff /etc/hostname /tmp/{{ random_file }}"
+      expected_exit_code: 0
+      description: "Files are identical"
+
+hints:
+  - "Use 'cp' command to copy files"
+  - "Format: cp source destination"
+
+tags:
+  - storage
+  - file_operations
+  - basic

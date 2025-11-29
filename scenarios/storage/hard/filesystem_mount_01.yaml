@@ -1,0 +1,43 @@
+id: storage_hard_004
+category: storage
+difficulty: hard
+task: |
+  Create a 50MB file at /tmp/{{ random_dir }}.img, format it with ext4 filesystem, and mount it at /mnt/testfs.
+  Create a file /mnt/testfs/test.txt to verify the mount.
+
+points: 20
+time_limit: 600
+
+setup_commands:
+  - "umount /mnt/testfs 2>/dev/null || true"
+  - "rm -rf /mnt/testfs /tmp/{{ random_dir }}.img 2>/dev/null || true"
+  - "mkdir -p /mnt/testfs"
+
+validation:
+  checks:
+    - type: file
+      path: "/tmp/{{ random_dir }}.img"
+      should_exist: true
+      description: "Filesystem image exists"
+    
+    - type: command
+      command: "mount | grep /mnt/testfs"
+      regex_match: "/mnt/testfs"
+      description: "Filesystem is mounted"
+    
+    - type: file
+      path: "/mnt/testfs/test.txt"
+      should_exist: true
+      description: "Test file exists on mounted filesystem"
+
+hints:
+  - "Create image: dd if=/dev/zero of=/tmp/{{ random_dir }}.img bs=1M count=50"
+  - "Format: mkfs.ext4 /tmp/{{ random_dir }}.img"
+  - "Mount: mount -o loop /tmp/{{ random_dir }}.img /mnt/testfs"
+  - "Create test file: touch /mnt/testfs/test.txt"
+
+tags:
+  - storage
+  - filesystem
+  - mount
+  - advanced

@@ -65,46 +65,110 @@ class InteractiveShell:
         """Run a command-based exercise"""
         self.hint_level = 0
         max_attempts = 3
+        time_limit = getattr(exercise, 'time_limit', None) or 300  # Default 5 minutes
         
-        for attempt in range(max_attempts):
-            # Show command prompt
-            # Show current directory in prompt like a real shell
-            prompt_dir = "~" if self.cwd == "/root" else self.cwd
-            user_input = input(f"{Colors.GREEN}{prompt_dir} $ {Colors.RESET}").strip()
-            
-            if not user_input:
-                continue
+        import time
+        import threading
+        import sys
+        
+        start_time = time.time()
+        timer_running = [True]
+        
+        def display_timer():
+            """Display live countdown timer"""
+            while timer_running[0]:
+                elapsed = int(time.time() - start_time)
+                remaining = max(0, time_limit - elapsed)
                 
-            # Handle special commands
-            if user_input == 'hint':
-                self._show_hint(exercise)
-                continue
-            elif user_input == 'skip':
-                print(warning("Skipping exercise..."))
-                return False
+                mins = remaining // 60
+                secs = remaining % 60
                 
-            # Execute command with state tracking
-            self.command_history.append(user_input)
-            result = self._execute_with_state(user_input)
-            
-            # Show output
-            if result.output:
-                print(result.output)
-            if result.error:
-                print(error(result.error))
+                # Color code based on time remaining
+                if remaining > 120:  # > 2 minutes
+                    timer_color = Colors.GREEN
+                elif remaining > 60:  # > 1 minute
+                    timer_color = Colors.YELLOW
+                else:  # < 1 minute
+                    timer_color = Colors.RED
                 
-            # Validate
-            if self._validate_command(exercise, user_input, result):
-                print(f"\n{success('✓ Correct!')} {dim(f'+{exercise.points} points')}\n")
-                return True
-            else:
-                remaining = max_attempts - attempt - 1
-                if remaining > 0:
-                    print(f"{warning('✗ Not quite right.')} {dim(f'{remaining} attempts remaining')}")
-                    print(dim("Type 'hint' for a hint, or 'skip' to skip this exercise.\n"))
+                # Save cursor, move to top, print timer, restore cursor
+                timer_str = f"{timer_color}⏱️  Time Remaining: {mins:02d}:{secs:02d}{Colors.RESET}"
+                box_width = 50
+                padding = box_width - 22  # Length of "⏱️  Time Remaining: MM:SS"
+                
+                # ANSI codes: save cursor, move to line 1, print, restore cursor
+                sys.stdout.write(f"\033[s")  # Save cursor position
+                sys.stdout.write(f"\033[1;1H")  # Move to line 1, column 1
+                sys.stdout.write(f"{Colors.CYAN}┌{'─' * box_width}┐{Colors.RESET}\n")
+                sys.stdout.write(f"{Colors.CYAN}│{Colors.RESET} {timer_str}{' ' * padding} {Colors.CYAN}│{Colors.RESET}\n")
+                sys.stdout.write(f"{Colors.CYAN}└{'─' * box_width}┘{Colors.RESET}")
+                sys.stdout.write(f"\033[u")  # Restore cursor position
+                sys.stdout.flush()
+                
+                if remaining == 0:
+                    timer_running[0] = False
+                    break
                     
-        print(f"\n{error('✗ Exercise failed.')} {dim('Moving to next exercise...')}\n")
-        return False
+                time.sleep(1)
+        
+        # Start timer thread
+        timer_thread = threading.Thread(target=display_timer, daemon=True)
+        timer_thread.start()
+        
+        # Reserve space for timer at top
+        print("\n\n\n")  # 3 lines for timer box
+        
+        try:
+            for attempt in range(max_attempts):
+                # Check if time expired
+                if not timer_running[0]:
+                    print(f"\n{error('⏰ Time expired!')} {dim('Moving to next exercise...')}\n")
+                    return False
+                
+                # Show command prompt
+                prompt_dir = "~" if self.cwd == "/root" else self.cwd.replace("/root", "~")
+                user_input = input(f"{Colors.GREEN}student@lfcs{Colors.RESET}:{Colors.BLUE}{prompt_dir}{Colors.RESET}$ ").strip()
+                
+                if not user_input:
+                    continue
+                    
+                # Handle special commands
+                if user_input == 'hint':
+                    self._show_hint(exercise)
+                    continue
+                elif user_input == 'skip':
+                    timer_running[0] = False
+                    print(warning("Skipping exercise..."))
+                    return False
+                    
+                # Execute command with state tracking
+                self.command_history.append(user_input)
+                result = self._execute_with_state(user_input)
+                
+                # Show output
+                if result.output:
+                    print(result.output)
+                if result.error:
+                    print(error(result.error))
+                    
+                # Validate
+                if self._validate_command(exercise, user_input, result):
+                    timer_running[0] = False
+                    print(f"{success('✓ Correct!')} {dim(f'+{exercise.points} points')}\n")
+                    return True
+                else:
+                    remaining_attempts = max_attempts - attempt - 1
+                    if remaining_attempts > 0:
+                        print(f"{warning('✗ Not quite right.')} {dim(f'{remaining_attempts} attempts remaining')}")
+                        print(dim("Type 'hint' for a hint, or 'skip' to skip this exercise.\n"))
+            
+            timer_running[0] = False
+            print(f"{error('✗ Exercise failed.')} {dim('Moving to next exercise...')}\n")
+            return False
+            
+        finally:
+            timer_running[0] = False
+            timer_thread.join(timeout=1)
     
     def _run_question_exercise(self, exercise: Exercise) -> bool:
         """Run a multiple-choice question exercise"""
@@ -202,12 +266,11 @@ class InteractiveShell:
                 
         # Check custom validation
         if exercise.validation:
-            # TODO: Implement custom validation logic
-            pass
+            return self._validate_task(exercise)
             
         # If no specific validation is provided, check if the command matches the expected command
         # This prevents 'cd' from passing for 'ls' if no output/pattern/validation is specified
-        if not exercise.expected_output and not exercise.expected_pattern and not exercise.validation:
+        if not exercise.expected_output and not exercise.expected_pattern:
             if exercise.command:
                 # Simple check: does the command start with the expected command?
                 # This allows arguments but prevents completely different commands

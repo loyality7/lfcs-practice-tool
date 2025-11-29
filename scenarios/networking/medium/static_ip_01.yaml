@@ -1,0 +1,42 @@
+id: net_static_001
+category: networking
+difficulty: medium
+task: |
+  Configure a static IP address on interface eth0 with the following settings:
+  - IP Address: 192.168.100.50/24
+  - Gateway: 192.168.100.1
+  - DNS Server: 8.8.8.8
+
+points: 15
+time_limit: 600
+
+setup_commands:
+  - "ip link set eth0 up || true"
+  - "ip addr flush dev eth0 2>/dev/null || true"
+
+validation:
+  checks:
+    - type: command
+      command: "ip addr show eth0 | grep '192.168.100.50'"
+      regex_match: "192\\.168\\.100\\.50"
+      description: "Interface has correct IP address"
+    
+    - type: command
+      command: "ip route | grep default | grep 192.168.100.1"
+      regex_match: "default.*192\\.168\\.100\\.1"
+      description: "Default gateway is configured"
+    
+    - type: command
+      command: "cat /etc/resolv.conf | grep nameserver | grep 8.8.8.8"
+      regex_match: "nameserver 8\\.8\\.8\\.8"
+      description: "DNS server is configured"
+
+hints:
+  - "Use 'ip addr add 192.168.100.50/24 dev eth0' for IP configuration"
+  - "Use 'ip route add default via 192.168.100.1' for gateway"
+  - "Add 'nameserver 8.8.8.8' to /etc/resolv.conf for DNS"
+
+tags:
+  - networking
+  - ip_configuration
+  - static_ip

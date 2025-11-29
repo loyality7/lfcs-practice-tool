@@ -1,0 +1,39 @@
+id: cmd_find_001
+category: essential_commands
+difficulty: easy
+task: |
+  Find all files in /etc that end with '.conf' and save the list to /tmp/{{ random_file }}.
+  Each file path should be on a separate line.
+
+points: 10
+time_limit: 300
+
+setup_commands:
+  - "rm -f /tmp/{{ random_file }} 2>/dev/null || true"
+
+validation:
+  checks:
+    - type: file
+      path: "/tmp/{{ random_file }}"
+      should_exist: true
+      description: "Output file exists"
+    
+    - type: command
+      command: "test -s /tmp/{{ random_file }} && echo 'not_empty' || echo 'empty'"
+      expected_output: "not_empty"
+      description: "Output file is not empty"
+    
+    - type: command
+      command: "head -1 /tmp/{{ random_file }} | grep -E '\\.conf$'"
+      regex_match: "\\.conf$"
+      description: "File contains .conf files"
+
+hints:
+  - "Use the 'find' command to search for files"
+  - "Use the -name option with a pattern"
+  - "Redirect output with > to save to a file"
+
+tags:
+  - find
+  - file_operations
+  - basic

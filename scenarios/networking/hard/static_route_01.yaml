@@ -1,0 +1,40 @@
+id: net_hard_001
+category: networking
+difficulty: hard
+task: |
+  Add a static route for the network {{ random_ip }}/24 via gateway {{ random_ip }}.
+  Verify the route is added by saving the routing table to /tmp/{{ random_file }}.
+
+points: 20
+time_limit: 600
+
+setup_commands:
+  - "ip route del {{ random_ip }}/24 2>/dev/null || true"
+  - "rm -f /tmp/{{ random_file }} 2>/dev/null || true"
+
+validation:
+  checks:
+    - type: command
+      command: "ip route | grep '{{ random_ip }}/24 via {{ random_ip }}'"
+      regex_match: "10\\.0\\.0\\.0/24 via 192\\.168\\.1\\.1"
+      description: "Static route is configured"
+    
+    - type: file
+      path: "/tmp/{{ random_file }}"
+      should_exist: true
+      description: "Routing table saved to file"
+    
+    - type: command
+      command: "grep '{{ random_ip }}' /tmp/{{ random_file }}"
+      regex_match: "10\\.0\\.0\\.0"
+      description: "Route appears in saved routing table"
+
+hints:
+  - "Use 'ip route add' to add a static route"
+  - "Format: ip route add NETWORK/PREFIX via GATEWAY"
+  - "Use 'ip route > /tmp/{{ random_file }}' to save the routing table"
+
+tags:
+  - networking
+  - routing
+  - advanced

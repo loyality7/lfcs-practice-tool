@@ -1,0 +1,32 @@
+id: net_easy_005
+category: networking
+difficulty: easy
+task: |
+  Perform a DNS lookup for 'localhost' and save the result to /tmp/{{ random_file }}.
+
+points: 10
+time_limit: 180
+
+setup_commands:
+  - "rm -f /tmp/{{ random_file }} 2>/dev/null || true"
+
+validation:
+  checks:
+    - type: file
+      path: "/tmp/{{ random_file }}"
+      should_exist: true
+      description: "Output file exists"
+    
+    - type: command
+      command: "grep -E '127\\.0\\.0\\.1|::1' /tmp/{{ random_file }}"
+      regex_match: "127"
+      description: "File contains localhost resolution"
+
+hints:
+  - "Use 'nslookup localhost' or 'host localhost' or 'dig localhost'"
+  - "Redirect output with > to save to a file"
+
+tags:
+  - networking
+  - dns
+  - basic

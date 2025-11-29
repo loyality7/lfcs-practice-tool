@@ -1,0 +1,226 @@
+id: linux_basics_01
+level: beginner
+title: "Linux Basics - Getting Started"
+description: "Learn fundamental Linux concepts and your first commands"
+estimated_time: 30
+
+lessons:
+  - id: lesson_01
+    title: "Welcome to Linux!"
+    notes: |
+      🐧 Welcome to the Linux Learning Path!
+      
+      Linux is an open-source operating system that powers:
+      • Servers (90% of web servers)
+      • Smartphones (Android)
+      • Supercomputers (100% of top 500)
+      • IoT devices
+      • And much more!
+      
+      Key Concepts:
+      ─────────────
+      • Kernel - The core of the OS that manages hardware
+      • Shell - The command-line interface (CLI) you'll use
+      • Distribution - Different "flavors" of Linux (Ubuntu, CentOS, etc.)
+      
+      Why Learn Linux?
+      ────────────────
+      ✓ Essential for DevOps, Cloud, and System Administration
+      ✓ Powers most servers and cloud infrastructure
+      ✓ Free and open-source
+      ✓ Highly customizable and powerful
+      
+      Let's get started with your first commands!
+    
+    exercises:
+      - id: ex_01
+        type: command
+        description: "Find out where you are in the filesystem"
+        command: pwd
+        expected_pattern: "^/"
+        hints:
+          - "Type: pwd"
+          - "pwd stands for 'print working directory'"
+          - "Just type the three letters: p-w-d"
+        points: 10
+      
+      - id: ex_02
+        type: command
+        description: "List the files in your current directory"
+        command: ls
+        hints:
+          - "Type: ls"
+          - "ls stands for 'list'"
+        points: 10
+
+  - id: lesson_02
+    title: "Understanding the Filesystem"
+    notes: |
+      📁 Linux Filesystem Hierarchy
+      
+      Linux organizes files in a tree structure starting from / (root):
+      
+      /
+      ├── home/     ← User home directories
+      ├── etc/      ← Configuration files
+      ├── var/      ← Variable data (logs, temp files)
+      ├── usr/      ← User programs and data
+      ├── bin/      ← Essential command binaries
+      └── tmp/      ← Temporary files
+      
+      Important Concepts:
+      ──────────────────
+      • Everything is a file (even devices!)
+      • Paths can be absolute (/home/user) or relative (../folder)
+      • ~ represents your home directory
+      • . represents current directory
+      • .. represents parent directory
+      
+      Let's practice navigating!
+    
+    exercises:
+      - id: ex_03
+        type: command
+        description: "Go to your home directory"
+        command: cd ~
+        validation:
+          type: command
+          command: "pwd | grep -E '/home/|/root'"
+        hints:
+          - "Type: cd ~"
+          - "The ~ symbol is a shortcut for your home directory"
+        points: 10
+      
+      - id: ex_04
+        type: command
+        description: "List files including hidden ones"
+        command: ls -a
+        expected_pattern: "\\."
+        hints:
+          - "Use the -a flag with ls"
+          - "Type: ls -a"
+          - "The -a flag shows 'all' files, including hidden ones that start with ."
+        points: 10
+
+  - id: lesson_03
+    title: "Getting Help"
+    notes: |
+      📚 How to Learn Any Command
+      
+      Linux has built-in documentation! You never need to memorize everything.
+      
+      Three ways to get help:
+      ──────────────────────
+      1. man <command>    - Full manual page
+      2. <command> --help - Quick help summary
+      3. whatis <command> - One-line description
+      
+      Examples:
+      • man ls      - Full documentation for ls
+      • ls --help   - Quick help for ls
+      • whatis pwd  - Short description of pwd
+      
+      Navigation in man pages:
+      • Space - Next page
+      • b - Previous page
+      • / - Search
+      • q - Quit
+      
+      Pro tip: You can search man pages with: man -k <keyword>
+    
+    exercises:
+      - id: ex_05
+        type: command
+        description: "Get a quick description of the 'ls' command"
+        command: whatis ls
+        expected_pattern: "list"
+        hints:
+          - "Type: whatis ls"
+          - "whatis gives you a one-line description"
+        points: 10
+      
+      - id: ex_06
+        type: question
+        question: "What does the 'cd' command do?"
+        options:
+          - "Copy directory"
+          - "Change directory"
+          - "Create directory"
+          - "Clear display"
+        correct_answer: "Change directory"
+        points: 10
+
+  - id: lesson_04
+    title: "Basic File Operations"
+    notes: |
+      📝 Working with Files
+      
+      Essential file commands:
+      ───────────────────────
+      • touch <file>  - Create empty file
+      • cat <file>    - Display file contents
+      • cp <src> <dst> - Copy file
+      • mv <src> <dst> - Move/rename file
+      • rm <file>     - Remove file
+      
+      Safety Tips:
+      ───────────
+      ⚠️  rm is permanent - there's no trash/recycle bin!
+      ✓  Use rm -i for interactive confirmation
+      ✓  Be careful with wildcards (*)
+      
+      Let's practice safely!
+    
+    exercises:
+      - id: ex_07
+        type: command
+        description: "Create a new empty file called 'test.txt'"
+        command: touch test.txt
+        validation:
+          type: file
+          path: "test.txt"
+        hints:
+          - "Use the touch command"
+          - "Type: touch test.txt"
+        points: 15
+      
+      - id: ex_08
+        type: command
+        description: "List files to verify test.txt was created"
+        command: ls
+        expected_pattern: "test\\.txt"
+        hints:
+          - "Use ls to list files"
+          - "You should see test.txt in the output"
+        points: 10
+
+  - id: lesson_05
+    title: "Congratulations!"
+    notes: |
+      🎉 Module Complete!
+      
+      You've learned:
+      ✓ What Linux is and why it's important
+      ✓ Basic navigation (pwd, cd, ls)
+      ✓ How to get help (man, --help, whatis)
+      ✓ Basic file operations (touch, cat, rm)
+      
+      Next Steps:
+      ──────────
+      Continue to the next module to learn:
+      • Advanced file navigation
+      • Working with directories
+      • File permissions
+      • And much more!
+      
+      Keep practicing! The more you use these commands,
+      the more natural they'll become.
+      
+      Pro tip: Try combining commands you've learned.
+      For example: cd ~ && ls -a
+    
+    exercises: []
+
+completion_criteria:
+  min_exercises_completed: 6
+  min_score: 60

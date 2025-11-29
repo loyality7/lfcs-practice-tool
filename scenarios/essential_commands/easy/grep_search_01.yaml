@@ -1,0 +1,31 @@
+id: cmd_easy_001
+category: essential_commands
+difficulty: easy
+task: |
+  Search for the word 'root' in /etc/passwd and save the results to /tmp/{{ random_file }}.
+
+points: 10
+time_limit: 180
+
+setup_commands:
+  - "rm -f /tmp/{{ random_file }} 2>/dev/null || true"
+
+validation:
+  checks:
+    - type: file
+      path: "/tmp/{{ random_file }}"
+      should_exist: true
+      description: "Output file exists"
+    
+    - type: command
+      command: "grep root /tmp/{{ random_file }}"
+      regex_match: "root"
+      description: "File contains root entries"
+
+hints:
+  - "Use 'grep root /etc/passwd > /tmp/{{ random_file }}'"
+
+tags:
+  - essential_commands
+  - grep
+  - basic

@@ -1,0 +1,32 @@
+id: storage_medium_003
+category: storage
+difficulty: medium
+task: |
+  Check the inode usage of the root filesystem and save the output to /tmp/{{ random_file }}.
+
+points: 15
+time_limit: 300
+
+setup_commands:
+  - "rm -f /tmp/{{ random_file }} 2>/dev/null || true"
+
+validation:
+  checks:
+    - type: file
+      path: "/tmp/{{ random_file }}"
+      should_exist: true
+      description: "Output file exists"
+    
+    - type: command
+      command: "grep -E 'Inodes|IUse%' /tmp/{{ random_file }} || grep '/' /tmp/{{ random_file }}"
+      regex_match: "/"
+      description: "File contains inode information"
+
+hints:
+  - "Use 'df -i' to check inode usage"
+  - "Redirect output with > to save to a file"
+
+tags:
+  - storage
+  - inodes
+  - disk_usage

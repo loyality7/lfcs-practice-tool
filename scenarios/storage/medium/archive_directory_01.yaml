@@ -1,0 +1,38 @@
+id: storage_medium_001
+category: storage
+difficulty: medium
+task: |
+  Create a compressed tar archive of the /etc/ssh directory and save it as /tmp/{{ random_dir }}.tar.gz.
+
+points: 15
+time_limit: 300
+
+setup_commands:
+  - "rm -f /tmp/{{ random_dir }}.tar.gz 2>/dev/null || true"
+
+validation:
+  checks:
+    - type: file
+      path: "/tmp/{{ random_dir }}.tar.gz"
+      should_exist: true
+      description: "Archive file exists"
+    
+    - type: command
+      command: "file /tmp/{{ random_dir }}.tar.gz | grep 'gzip compressed'"
+      regex_match: "gzip compressed"
+      description: "File is a gzip compressed archive"
+    
+    - type: command
+      command: "tar -tzf /tmp/{{ random_dir }}.tar.gz | head -1"
+      regex_match: "ssh"
+      description: "Archive contains ssh directory"
+
+hints:
+  - "Use 'tar -czf' to create a compressed archive"
+  - "Format: tar -czf archive.tar.gz directory/"
+  - "The -c flag creates, -z compresses with gzip, -f specifies filename"
+
+tags:
+  - storage
+  - archiving
+  - compression

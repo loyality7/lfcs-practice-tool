@@ -1,0 +1,36 @@
+id: net_hard_004
+category: networking
+difficulty: hard
+task: |
+  Add an iptables rule to allow incoming SSH connections (port 22) on the INPUT chain.
+  Save the current iptables rules to /tmp/{{ random_file }}.
+
+points: 20
+time_limit: 600
+
+setup_commands:
+  - "iptables -D INPUT -p tcp --dport 22 -j ACCEPT 2>/dev/null || true"
+  - "rm -f /tmp/{{ random_file }} 2>/dev/null || true"
+
+validation:
+  checks:
+    - type: command
+      command: "iptables -L INPUT -n | grep 'tcp dpt:22'"
+      regex_match: "tcp dpt:22"
+      description: "SSH rule exists in INPUT chain"
+    
+    - type: file
+      path: "/tmp/{{ random_file }}"
+      should_exist: true
+      description: "Iptables rules saved to file"
+
+hints:
+  - "Use 'iptables -A INPUT -p tcp --dport 22 -j ACCEPT'"
+  - "Save rules: iptables -L > /tmp/{{ random_file }}"
+  - "You may need root privileges"
+
+tags:
+  - networking
+  - firewall
+  - iptables
+  - advanced

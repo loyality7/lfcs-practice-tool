@@ -1,0 +1,32 @@
+id: ops_easy_005
+category: operations_deployment
+difficulty: easy
+task: |
+  Display memory information and save it to /tmp/{{ random_file }}.
+
+points: 10
+time_limit: 180
+
+setup_commands:
+  - "rm -f /tmp/{{ random_file }} 2>/dev/null || true"
+
+validation:
+  checks:
+    - type: file
+      path: "/tmp/{{ random_file }}"
+      should_exist: true
+      description: "Output file exists"
+    
+    - type: command
+      command: "grep -i 'mem' /tmp/{{ random_file }}"
+      regex_match: "[Mm]em"
+      description: "File contains memory information"
+
+hints:
+  - "Use 'free -h' to display memory information"
+  - "Redirect output with > to save to a file"
+
+tags:
+  - operations_deployment
+  - system_info
+  - basic

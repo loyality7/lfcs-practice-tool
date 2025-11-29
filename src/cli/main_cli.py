@@ -14,6 +14,7 @@ from ..utils.config import load_config, Config
 from ..utils.db_manager import Statistics
 from ..utils.colors import Colors, success, error, warning, info, highlight, header, command, dim
 from ..utils import banner
+from ..utils.version_check import get_current_version
 from ..learn import ModuleLoader, DifficultyLevel
 from ..learn.interactive_shell import InteractiveShell
 from ..docker_manager.environment import DockerEnvironment
@@ -59,9 +60,23 @@ class CLI:
         if args is None:
             args = sys.argv[1:]
         
+        # Automatic update check (non-blocking)
+        # Skip check ONLY for help, version, or update commands
+        if not any(cmd in args for cmd in ['--help', '-h', '--version', 'update']):
+            try:
+                from ..utils.version_check import check_for_updates, print_update_notification
+                
+                # Check for updates (uses cache, max once per day)
+                new_version = check_for_updates()
+                if new_version:
+                    print_update_notification(new_version)
+            except Exception:
+                # Silently fail - don't interrupt user experience
+                pass
+        
         # Show welcome screen if no arguments provided
         if not args:
-            version = self.config.version if self.config else "1.0.0"
+            version = get_current_version()
             banner.print_welcome_screen(version)
             return 0
         
@@ -71,7 +86,7 @@ class CLI:
             return 0
         
         if '--version' in args:
-            version = self.config.version if self.config else "1.0.0"
+            version = get_current_version()
             banner.print_mini_banner()
             print(f"\n{highlight('Version:')} {info(version)}\n")
             return 0
@@ -103,6 +118,8 @@ class CLI:
                     module_id=parsed_args.module,
                     continue_learning=parsed_args.continue_learn
                 )
+            elif parsed_args.command == 'update':
+                return self.cmd_update(check_only=parsed_args.check)
             else:
                 parser.print_help()
                 return 1
@@ -264,6 +281,18 @@ class CLI:
             help='Continue from last lesson'
         )
         
+        # Update command
+        update_parser = subparsers.add_parser(
+            'update',
+            help='Update lfcs to the latest version',
+            description='Check for and install the latest version of lfcs from PyPI'
+        )
+        update_parser.add_argument(
+            '--check',
+            action='store_true',
+            help='Only check for updates without installing'
+        )
+        
         return parser
     
     def cmd_start(self, category: Optional[str] = None,
@@ -320,6 +349,8 @@ class CLI:
                 if selected_difficulty is None:
                     selected_difficulty = self._select_difficulty()
                     if selected_difficulty is None:
+                        if category is None:
+                            continue  # Go back to category selection
                         return 0  # User cancelled
                 
                 # Get scenarios matching the filters
@@ -332,6 +363,8 @@ class CLI:
                 # Let user select a specific scenario
                 selected_scenario = self._select_scenario(scenarios, selected_category, selected_difficulty)
                 if selected_scenario is None:
+                    if category is None or difficulty is None:
+                        continue  # Go back to start of wizard
                     return 0  # User cancelled
                 
                 scenario_id = selected_scenario.id
@@ -484,7 +517,7 @@ class CLI:
             label = cat.replace('_', ' ').title()
             banner.print_menu_item(idx, f"{icon} {label}", desc)
         
-        print(f"\n  {dim('0. Cancel')}")
+        print(f"\n  {dim('0. Back')}")
         print()
         
         while True:
@@ -526,7 +559,7 @@ class CLI:
             icon, desc, badge = difficulty_info.get(diff, ('⚪', 'Practice scenarios', dim(f'[{diff.upper()}]')))
             banner.print_menu_item(idx, f"{icon} {diff.capitalize()}", desc, badge)
         
-        print(f"\n  {dim('0. Cancel')}")
+        print(f"\n  {dim('0. Back')}")
         print()
         
         while True:
@@ -546,6 +579,55 @@ class CLI:
             except KeyboardInterrupt:
                 print("\n")
                 return None
+    
+    def cmd_update(self, check_only: bool = False) -> int:
+        """
+        Check for and install updates
+        
+        Args:
+            check_only: If True, only check for updates without installing
+        
+        Returns:
+            Exit code (0 for success)
+        """
+        from ..utils.version_check import (
+            check_for_updates,
+            get_current_version, 
+            print_update_notification,
+            perform_update
+        )
+        
+        current_version = get_current_version()
+        banner.print_mini_banner()
+        
+        print(f"\n{info('Current version:')} {highlight(current_version)}")
+        print(f"{info('Checking for updates...')}\n")
+        
+        try:
+            latest_version = check_for_updates(force=True)
+            
+            if latest_version:
+                print_update_notification(latest_version)
+                
+                if check_only:
+                    return 0
+                
+                # Ask user if they want to update
+                response = input(f"{Colors.CYAN}Do you want to update now? (y/n):{Colors.RESET} ").strip().lower()
+                
+                if response == 'y':
+                    return perform_update()
+                else:
+                    print(f"\n{info('Update cancelled.')}\n")
+                    return 0
+            else:
+                print(f"{success('✓ You are running the latest version!')}\n")
+                return 0
+                
+        except Exception as e:
+            logger.error(f"Update check failed: {e}", exc_info=True)
+            print(f"{error('Update check failed.')} {dim('Please try again later.')}\n")
+            return 1
     
     def cmd_reset(self, confirm: bool = False) -> int:
         """
@@ -788,7 +870,7 @@ class CLI:
             print(f"      {dim('Points:')} {info(str(scenario.points))}")
             print()
         
-        print(f"  {dim('0. Cancel')}")
+        print(f"  {dim('0. Back')}")
         print()
         
         while True:
@@ -912,6 +994,8 @@ class CLI:
              "See your progress, performance, and achievements"),
             ("learn", "📚", "Interactive learning mode", 
              "Learn Linux from basics to LFCS level with guided lessons"),
+            ("update", "📦", "Update to latest version",
+             "Check for and install the latest version from PyPI"),
             ("reset", "🔄", "Reset your progress", 
              "Clear all statistics and start fresh (requires confirmation)")
         ]

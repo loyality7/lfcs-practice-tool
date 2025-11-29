@@ -1,0 +1,38 @@
+id: users_create_001
+category: users_groups
+difficulty: easy
+task: |
+  Create a new user account named 'alice' with UID 2000.
+  The user should have /bin/bash as their shell and a home directory at /home/alice.
+
+points: 10
+time_limit: 300
+
+setup_commands:
+  - "userdel -r alice 2>/dev/null || true"
+
+validation:
+  checks:
+    - type: command
+      command: "id -u alice"
+      expected_output: "2000"
+      description: "User alice exists with UID 2000"
+    
+    - type: command
+      command: "getent passwd alice | cut -d: -f7"
+      expected_output: "/bin/bash"
+      description: "User has /bin/bash shell"
+    
+    - type: file
+      path: "/home/alice"
+      should_exist: true
+      description: "Home directory exists"
+
+hints:
+  - "Use the 'useradd' command with the -u flag for UID"
+  - "The -s flag specifies the shell"
+  - "The -m flag creates the home directory"
+
+tags:
+  - user_management
+  - basic

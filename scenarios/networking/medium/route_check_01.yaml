@@ -1,0 +1,33 @@
+id: net_medium_003
+category: networking
+difficulty: medium
+task: |
+  Display the routing table and save it to /tmp/{{ random_file }}.
+  Ensure the output includes the default gateway.
+
+points: 15
+time_limit: 300
+
+setup_commands:
+  - "rm -f /tmp/{{ random_file }} 2>/dev/null || true"
+
+validation:
+  checks:
+    - type: file
+      path: "/tmp/{{ random_file }}"
+      should_exist: true
+      description: "Output file exists"
+    
+    - type: command
+      command: "grep -i 'default\\|0.0.0.0' /tmp/{{ random_file }}"
+      regex_match: "default|0\\.0\\.0\\.0"
+      description: "File contains routing information"
+
+hints:
+  - "Use 'ip route' or 'route -n' to display routing table"
+  - "Redirect output with > to save to a file"
+
+tags:
+  - networking
+  - routing
+  - intermediate

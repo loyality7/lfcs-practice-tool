@@ -5,6 +5,55 @@ All notable changes to the LFCS Practice Tool will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2025-11-29
+
+### Added
+- **Countdown timer for learning exercises** - Live timer display showing time remaining (MM:SS format)
+  - Color-coded (green > 2min, yellow > 1min, red < 1min)
+  - Configurable time limit per exercise (default 5 minutes)
+  - Timer stops on correct answer or when time expires
+- **Prominent version warning in welcome banner** - Update notification integrated directly in banner
+  - Shows "UPDATE AVAILABLE" warning box when outdated
+  - Displays which version you're on vs latest available
+  - Shows "(Outdated!)" or "(Latest)" status next to version number
+  - Provides update command directly
+- **Improved menu navigation** - "Back" option (0) now returns to previous menu instead of exiting
+
+### Fixed
+- Removed duplicate divider lines in welcome banner
+- Banner now displays cleanly with single set of dividers
+
+## [1.0.9] - 2025-11-29
+
+### Fixed
+- Version display now shows actual installed package version instead of hardcoded config value
+- CLI now uses `get_current_version()` from version_check utility for accurate version reporting
+
+## [1.0.8] - 2025-11-29
+
+### Fixed
+- Update notification now displays on welcome screen (when running `lfcs` without arguments)
+- Moved update check before welcome screen display to ensure all users see update notifications
+
+## [1.0.7] - 2025-11-29
+
+### Fixed
+- **Critical bug in learning module validation** - Commands are now properly validated
+  - Fixed validation logic that was accepting any command as correct
+  - Exercises with validation dictionaries now execute validation commands properly
+  - Users will now receive accurate feedback on command correctness
+
+### Added
+- **Automatic update checking** - CLI now checks PyPI for new versions on startup
+  - Non-intrusive notification when updates are available
+  - Cached checks (once per day) to avoid excessive API calls
+  - `lfcs update` command to easily upgrade to latest version
+  - `lfcs update --check` to only check without installing
+
+### Changed
+- Update notifications display current and latest version with upgrade command
+- Help text now includes update command documentation
+
 ## [1.0.6] - 2025-11-29
 
 ### Added

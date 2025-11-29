@@ -166,27 +166,91 @@ def print_important_notes(notes: list):
     print()
 
 
+def print_ascii_banner():
+    """Print just the ASCII art without borders"""
+    print(f"{Colors.BRIGHT_CYAN}   ██╗     ███████╗ ██████╗███████╗{Colors.RESET}")
+    print(f"{Colors.BRIGHT_CYAN}   ██║     ██╔════╝██╔════╝██╔════╝{Colors.RESET}")
+    print(f"{Colors.BRIGHT_CYAN}   ██║     █████╗  ██║     ███████╗{Colors.RESET}")
+    print(f"{Colors.BRIGHT_CYAN}   ██║     ██╔══╝  ██║     ╚════██║{Colors.RESET}")
+    print(f"{Colors.BRIGHT_CYAN}   ███████╗██║     ╚██████╗███████║{Colors.RESET}")
+    print(f"{Colors.BRIGHT_CYAN}   ╚══════╝╚═╝      ╚═════╝╚══════╝{Colors.RESET}")
+
+
+def print_center(text: str, width: int = 70):
+    """Print centered text"""
+    print(f"{Colors.BRIGHT_YELLOW}{text.center(width)}{Colors.RESET}")
+
+
+def print_section(title: str):
+    """Print a section header with underline"""
+    print(f"\n{Colors.BOLD}{Colors.WHITE}{title}{Colors.RESET}")
+    print(f"{Colors.CYAN}{'-' * len(title)}{Colors.RESET}")
+
+
+def print_info(lines: list):
+    """Print info lines"""
+    for line in lines:
+        print(f"  {line}")
+
+
 def print_welcome_screen(version: str):
-    """Print the welcome screen with banner and info"""
-    print_banner()
+    """Display welcome screen with ASCII art banner"""
+    from .colors import success, warning, dim, info, highlight
     
-    info_lines = [
-        f"{highlight('Version:')} {info(version)}",
+    # Check for updates
+    update_available = None
+    try:
+        from .version_check import check_for_updates, get_update_command
+        update_available = check_for_updates()
+    except:
+        pass
+    
+    print()
+    print(f"{Colors.CYAN}{'=' * 70}{Colors.RESET}")
+    print()
+    print_ascii_banner()
+    print_center("Linux System Administration Practice Tool")
+    print()
+    print(f"{Colors.CYAN}{'=' * 70}{Colors.RESET}")
+    print()
+    
+    # Show version with update warning if available
+    if update_available:
+        print(f"{Colors.YELLOW}╭{'─' * 68}╮{Colors.RESET}")
+        print(f"{Colors.YELLOW}│{Colors.RESET} {warning('⚠️  UPDATE AVAILABLE!')} " + " " * 45 + f"{Colors.YELLOW}│{Colors.RESET}")
+        print(f"{Colors.YELLOW}│{Colors.RESET}" + " " * 70 + f"{Colors.YELLOW}│{Colors.RESET}")
+        print(f"{Colors.YELLOW}│{Colors.RESET}  You are on version {dim(version)}, but {highlight(update_available)} is available!" + " " * (24 - len(version) - len(update_available)) + f"{Colors.YELLOW}│{Colors.RESET}")
+        print(f"{Colors.YELLOW}│{Colors.RESET}  {warning('Missing latest features and bug fixes!')} " + " " * 24 + f"{Colors.YELLOW}│{Colors.RESET}")
+        print(f"{Colors.YELLOW}│{Colors.RESET}" + " " * 70 + f"{Colors.YELLOW}│{Colors.RESET}")
+        
+        update_cmd = get_update_command() if update_available else "pip install --upgrade lfcs"
+        print(f"{Colors.YELLOW}│{Colors.RESET}  Update now: {success(update_cmd)}" + " " * (56 - len(update_cmd)) + f"{Colors.YELLOW}│{Colors.RESET}")
+        print(f"{Colors.YELLOW}╰{'─' * 68}╯{Colors.RESET}")
+        print()
+    
+    print_section("System Information")
+    
+    # Show version status
+    if update_available:
+        version_status = f"{version} {warning('(Outdated!)')}"
+    else:
+        version_status = f"{version} {success('(Latest)')}"
+    
+    print_info([
+        f"{highlight('Version:')} {version_status}",
         f"{highlight('Author:')} {info('C Sarath Babu')}",
         f"{highlight('License:')} {info('MIT')}"
-    ]
+    ])
+    print()
     
-    print_box("System Information", info_lines)
-    
-    notes = [
-        f"Choose {success('start')} to begin a practice session",
-        f"Choose {info('list')} to browse available scenarios",
-        f"Choose {warning('stats')} to view your progress",
-        f"Choose {info('learn')} for interactive learning mode",
-        f"Use {highlight('--help')} for detailed command information"
-    ]
-    
-    print_important_notes(notes)
+    print_section("Important Notes")
+    print_info([
+        f"• Choose {success('start')} to begin a practice session",
+        f"• Choose {info('list')} to browse available scenarios",
+        f"• Choose {warning('stats')} to view your progress",
+        f"• Choose {info('learn')} for interactive learning mode",
+        f"• Use {highlight('--help')} for detailed command information"
+    ])
 
 
 def print_usage_help():

@@ -1,0 +1,32 @@
+id: cmd_easy_005
+category: essential_commands
+difficulty: easy
+task: |
+  Copy /etc/hostname to /tmp/{{ random_file }} and replace any occurrence of the hostname with 'MYHOST'.
+
+points: 10
+time_limit: 180
+
+setup_commands:
+  - "rm -f /tmp/{{ random_file }} 2>/dev/null || true"
+
+validation:
+  checks:
+    - type: file
+      path: "/tmp/{{ random_file }}"
+      should_exist: true
+      description: "Output file exists"
+    
+    - type: command
+      command: "grep MYHOST /tmp/{{ random_file }}"
+      regex_match: "MYHOST"
+      description: "File contains MYHOST"
+
+hints:
+  - "Copy file first: cp /etc/hostname /tmp/{{ random_file }}"
+  - "Use sed to replace: sed -i 's/.*/MYHOST/' /tmp/{{ random_file }}"
+
+tags:
+  - essential_commands
+  - sed
+  - basic

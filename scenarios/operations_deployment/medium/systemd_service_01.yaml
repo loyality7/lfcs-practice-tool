@@ -1,0 +1,41 @@
+id: ops_medium_002
+category: operations_deployment
+difficulty: medium
+task: |
+  Create a simple systemd service file at /etc/systemd/system/testapp.service.
+  The service should run /usr/bin/sleep 3600 as a simple service.
+
+points: 15
+time_limit: 300
+
+setup_commands:
+  - "systemctl stop testapp 2>/dev/null || true"
+  - "rm -f /etc/systemd/system/testapp.service 2>/dev/null || true"
+
+validation:
+  checks:
+    - type: file
+      path: "/etc/systemd/system/testapp.service"
+      should_exist: true
+      description: "Service file exists"
+    
+    - type: command
+      command: "grep 'ExecStart=/usr/bin/sleep 3600' /etc/systemd/system/testapp.service"
+      regex_match: "ExecStart=/usr/bin/sleep 3600"
+      description: "Service has correct ExecStart"
+    
+    - type: command
+      command: "grep 'Type=simple' /etc/systemd/system/testapp.service"
+      regex_match: "Type=simple"
+      description: "Service type is simple"
+
+hints:
+  - "Create file with [Unit], [Service], and [Install] sections"
+  - "Add: ExecStart=/usr/bin/sleep 3600"
+  - "Add: Type=simple"
+  - "Reload daemon: systemctl daemon-reload"
+
+tags:
+  - operations_deployment
+  - systemd
+  - services

@@ -1,0 +1,28 @@
+id: storage_easy_001
+category: storage
+difficulty: easy
+task: |
+  Create a file at /tmp/{{ random_file }} with permissions 644 (rw-r--r--).
+
+points: 10
+time_limit: 180
+
+setup_commands:
+  - "rm -f /tmp/{{ random_file }} 2>/dev/null || true"
+
+validation:
+  checks:
+    - type: file
+      path: "/tmp/{{ random_file }}"
+      should_exist: true
+      permissions: "0644"
+      description: "File exists with correct permissions"
+
+hints:
+  - "Use 'touch' to create the file"
+  - "Use 'chmod 644' to set permissions"
+
+tags:
+  - storage
+  - permissions
+  - basic
