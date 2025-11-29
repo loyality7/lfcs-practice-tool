@@ -10,7 +10,7 @@ long_description = (this_directory / "README.md").read_text(encoding="utf-8")
 
 setup(
     name="lfcs",
-    version="1.0.6",
+    version="1.1.0",
     packages=find_packages(exclude=["tests", "tests.*", "docs", ".kiro"]),
     include_package_data=True,
     
