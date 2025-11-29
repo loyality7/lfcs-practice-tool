@@ -359,7 +359,6 @@ docker exec -it <container-id> /bin/bash
 
 - 💬 [Discussions](https://github.com/loyality7/lfcs-practice-tool/discussions)
 - 🐛 [Issues](https://github.com/loyality7/lfcs-practice-tool/issues)
-- 📧 Email: your-email@example.com
 
 ## 📜 License
 
