@@ -10,7 +10,7 @@ long_description = (this_directory / "README.md").read_text(encoding="utf-8")
 
 setup(
     name="lfcs",
-    version="1.0.4",
+    version="1.0.5",
     packages=find_packages(exclude=["tests", "tests.*", "docs", ".kiro"]),
     include_package_data=True,
     
@@ -103,6 +103,8 @@ setup(
             "data/learn_modules/*/*.yaml",
             "data/schema.sql",
             "agent/lfcs-check",
+            "data/docker/*",
+            "data/docker/*/*",
         ],
     },
     

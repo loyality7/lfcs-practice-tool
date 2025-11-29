@@ -5,6 +5,24 @@ All notable changes to the LFCS Practice Tool will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.5] - 2025-11-29
+
+### Added
+- **Automatic Docker image building** - Images now build automatically on first use with progress display
+- New `src/docker_manager/image_builder.py` module for building images
+- Dockerfiles now included in pip package (`src/data/docker/`)
+
+### Changed
+- Simplified installation - no longer need to manually clone repo and build images
+- Updated `DockerManager.create_container()` to trigger automatic builds when images are missing
+- Installation now just `pip install lfcs` + `lfcs start` (images build on first run)
+
+### Improved
+- Real-time progress display during image building
+- Better user experience with automatic setup
+- First run takes 5-20 minutes (one-time), subsequent runs are instant
+
+
 ## [1.0.4] - 2025-11-29
 
 ### Fixed

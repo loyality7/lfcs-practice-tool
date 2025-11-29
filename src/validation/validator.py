@@ -5,6 +5,10 @@ from ..core.models import Scenario, ValidationResult as ModelValidationResult, C
 from ..core.interfaces import Environment, ValidatorStrategy
 from .strategies import CommandStrategy, FileStrategy, ServiceStrategy
 
+# Re-export for backward compatibility with tests
+ValidationResult = ModelValidationResult
+__all__ = ['Validator', 'ValidationResult', 'CheckResult']
+
 logger = logging.getLogger(__name__)
 
 class Validator:

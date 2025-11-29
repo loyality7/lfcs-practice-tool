@@ -64,19 +64,11 @@ Choose your installation method based on your needs:
 # 1. Install from PyPI
 pip install lfcs
 
-# 2. Build Docker images (one-time setup)
-# Clone repository temporarily to get Docker files
-git clone https://github.com/loyality7/lfcs-practice-tool.git
-cd lfcs-practice-tool/docker/base_images
-./build_all.sh  # Or ./build_ubuntu_only.sh for faster setup
-cd ../../..
-
-# 3. Start practicing (scenarios auto-initialize on first run)
+# 2. Start practicing (Docker images build automatically on first use)
 lfcs start
-
-# Or try interactive learning mode
-lfcs learn
 ```
+
+**Note**: Docker images are built automatically when you first use the tool. The first run will take 5-20 minutes to build images, but subsequent runs will be instant.
 
 ### Method 2: Full Repository Installation (For Contributors)
 
@@ -88,7 +80,7 @@ cd lfcs-practice-tool
 # 2. Install in editable mode
 pip install -e ".[dev,ai]"
 
-# 3. Build Docker images
+# 3. Build Docker images (optional - will auto-build if skipped)
 cd docker/base_images
 ./build_all.sh
 cd ../..
@@ -115,41 +107,27 @@ Before installing, ensure you have:
 
 **Best for**: Users who just want to practice LFCS scenarios
 
-**What you get**: Full LFCS practice tool with all scenarios and learning modules
+**What you get**: Full LFCS practice tool with all 83+ scenarios, 14 learning modules, and automatic Docker image building
 
 **Steps**:
 
 1. **Install the package**:
    ```bash
    pip install lfcs
-   
-   # Or with AI features
-   pip install lfcs[ai]
    ```
 
-2. **Build Docker images** (one-time setup):
+2. **Start practicing**:
    ```bash
-   # Clone repository temporarily
-   git clone https://github.com/loyality7/lfcs-practice-tool.git
-   cd lfcs-practice-tool/docker/base_images
-   
-   # Build all images (Ubuntu, CentOS, Rocky)
-   ./build_all.sh
-   
-   # Or build only Ubuntu (faster, ~5 minutes)
-   ./build_ubuntu_only.sh
-   
-   # Go back to your working directory
-   cd ../../..
+   lfcs start
    ```
 
-3. **Verify installation**:
-   ```bash
-   lfcs --version
-   lfcs start  # Scenarios will auto-initialize on first run
-   ```
+**That's it!** Docker images will be built automatically on first use.
 
-**Note**: After building Docker images, you can delete the cloned repository if you want. The scenarios and learning modules are included in the pip package.
+**Important Notes**:
+- ✅ **Automatic setup** - Docker images build automatically when first needed
+- ⏱️ **First run takes 5-20 minutes** - Building images (one-time setup)
+- 🚀 **Subsequent runs are instant** - Images are reused
+- 📦 **Everything included** - Scenarios, learning modules, and Dockerfiles in pip package
 
 ### Installation Method 2: Repository Install (For Contributors)
 
@@ -482,4 +460,4 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 **Made with ❤️ for the Linux community**
 
-**Version**: 1.0.4 | **Author**: C Sarath Babu | **License**: MIT
+**Version**: 1.0.5 | **Author**: C Sarath Babu | **License**: MIT

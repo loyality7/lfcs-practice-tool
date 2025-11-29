@@ -97,13 +97,20 @@ class DockerManager:
             self.client.images.get(image_name)
             logger.info(f"Using existing image: {image_name}")
         except ImageNotFound as e:
-            logger.warning(f"Image {image_name} not found, attempting to pull...")
-            try:
-                self.client.images.pull(image_name)
-                logger.info(f"Successfully pulled image: {image_name}")
-            except Exception as pull_error:
-                logger.error(f"Failed to pull image {image_name}: {pull_error}")
-                
+            logger.warning(f"Image {image_name} not found, building automatically...")
+            
+            # Import image builder
+            from .image_builder import DockerImageBuilder
+            
+            # Build the image automatically
+            builder = DockerImageBuilder(self.client)
+            
+            print(f"\n⚠️  Docker image '{image_name}' not found.")
+            print("Building it automatically (this is a one-time setup)...\n")
+            
+            success = builder.build_image(distribution, show_progress=True)
+            
+            if not success:
                 # Use error handler for better error reporting
                 context = ErrorContext(
                     scenario_id=scenario.id,
@@ -112,13 +119,13 @@ class DockerManager:
                     difficulty=scenario.difficulty,
                     additional_info={'image_name': image_name, 'distribution': distribution}
                 )
-                response = handle_docker_error(pull_error, context, self.error_handler)
+                response = handle_docker_error(e, context, self.error_handler)
                 print(self.error_handler.format_error_for_user(response))
                 
                 raise ImageNotFound(
-                    f"Base image '{image_name}' not found. "
-                    f"Please build the base images using: cd docker/base_images && ./build_all.sh"
-                ) from pull_error
+                    f"Failed to build image '{image_name}'. "
+                    f"Please check Docker daemon and try again."
+                ) from e
         
         # Create container configuration
         container_config = {

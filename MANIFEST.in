@@ -9,6 +9,7 @@ recursive-include src/data/learn_modules *.yaml
 recursive-include src/data/learn_modules *.yml
 include src/data/schema.sql
 include src/agent/lfcs-check
+recursive-include src/data/docker *
 
 # Include validation scripts
 recursive-include docker/validation_scripts *.sh
