@@ -40,13 +40,19 @@ Complete guide to using the LFCS Practice Tool for Linux system administration t
    lfcs --help
    ```
 
+5. **Check for updates**:
+   The tool automatically checks for updates on startup. You can also manually check:
+   ```bash
+   lfcs update
+   ```
+
 **Note**: The PyPI package contains only Python code. You need the repository for Docker files, scenarios, and learning modules.
 
 ### Understanding the Interface
 
 The tool uses a clean, terminal-based interface with:
 - **Color coding**: Green for success, red for errors, yellow for warnings
-- **Interactive menus**: Number-based selection
+- **Interactive menus**: Number-based selection with "Back" (0) navigation
 - **Progress indicators**: Visual feedback on your performance
 - **Detailed feedback**: Specific information about what passed/failed
 
@@ -297,11 +303,12 @@ Learning modules include:
 - **Question exercises**: Test your knowledge
 - **Task exercises**: Complete real-world tasks
 
-**Features**:
-- Progressive hints
-- Immediate feedback
-- Points and progress tracking
-- Hands-on practice in containers
+- **Countdown Timer**: Live timer at the top of the screen keeps you on track
+- **Real Shell Experience**: Enhanced prompt (`student@lfcs:~$`) mimics real environments
+- **Progressive hints**: Get help when stuck without losing all points
+- **Immediate feedback**: Know instantly if you got it right
+- **Points and progress tracking**: Gamified learning experience
+- **Hands-on practice in containers**: Real Linux environment, not a simulation
 
 ## Understanding Statistics
 

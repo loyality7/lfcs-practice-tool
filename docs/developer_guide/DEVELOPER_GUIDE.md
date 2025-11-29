@@ -490,6 +490,7 @@ lessons:
         command: "ls"
         expected_pattern: "home.*etc.*var"
         points: 10
+        time_limit: 300  # Optional: Time limit in seconds (default: 300)
         hints:
           - "Use ls command to list directory contents"
           - "Try: ls /"
