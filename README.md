@@ -19,6 +19,12 @@
 
 A comprehensive CLI-based training tool designed to help you prepare for the Linux Foundation Certified System Administrator (LFCS) exam. Practice real-world Linux administration tasks in isolated Docker containers with automatic validation, progress tracking, and interactive learning modules.
 
+## Demo
+
+[![asciicast](https://asciinema.org/a/758926.svg)](https://asciinema.org/a/758926)
+
+Watch the tool in action - see how to start a practice session, complete tasks, and get instant validation feedback.
+
 ## Table of Contents
 
 - [Features](#features)
