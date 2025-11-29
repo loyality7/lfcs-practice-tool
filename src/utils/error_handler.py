@@ -255,8 +255,14 @@ class ErrorHandler:
         
         if "not running" in error_msg or "cannot connect" in error_msg:
             return (
-                "Docker daemon is not running or not accessible.\n"
-                "The LFCS Practice Tool requires Docker to create isolated practice environments."
+                "Docker daemon is not running or not accessible.\n\n"
+                "The LFCS Practice Tool requires Docker to create isolated practice environments.\n"
+                "When you run 'lfcs start', the tool:\n"
+                "  1. Creates an isolated Docker container (Ubuntu/CentOS/Rocky Linux)\n"
+                "  2. Gives you a shell inside the container to practice Linux tasks\n"
+                "  3. Validates your work automatically when you exit\n"
+                "  4. Tracks your progress and provides feedback\n\n"
+                "Without Docker, the tool cannot create these safe practice environments."
             )
         
         if isinstance(error, ImageNotFound):
@@ -428,8 +434,10 @@ class ErrorHandler:
         
         if "not running" in error_msg or "cannot connect" in error_msg:
             suggestions.extend([
-                "Install Docker: https://docs.docker.com/get-docker/",
+                "Install Docker (Linux): curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh",
+                "Install Docker (Mac/Windows): https://docs.docker.com/get-docker/",
                 "Start Docker daemon: sudo systemctl start docker (Linux) or start Docker Desktop (Mac/Windows)",
+                "Add user to docker group: sudo usermod -aG docker $USER && newgrp docker",
                 "Check Docker status: docker ps",
                 "Verify Docker installation: docker --version"
             ])
@@ -731,25 +739,47 @@ class ErrorHandler:
             response: ErrorResponse to format
             
         Returns:
-            Formatted error message string
+            Formatted error message string with color formatting
         """
-        lines = []
-        lines.append("\n" + "=" * 70)
-        lines.append(f"ERROR: {response.category.value.upper()}")
-        lines.append("=" * 70)
-        lines.append(f"\n{response.user_message}\n")
+        from .colors import Colors, error, warning, info, highlight
         
+        lines = []
+        
+        # Color based on severity
+        if response.severity == ErrorSeverity.CRITICAL:
+            color = Colors.BRIGHT_RED
+            severity_text = "CRITICAL ERROR"
+        elif response.severity == ErrorSeverity.ERROR:
+            color = Colors.RED
+            severity_text = "ERROR"
+        elif response.severity == ErrorSeverity.WARNING:
+            color = Colors.YELLOW
+            severity_text = "WARNING"
+        else:
+            color = Colors.CYAN
+            severity_text = "INFO"
+        
+        # Header with color
+        lines.append(f"\n{color}{'=' * 70}")
+        lines.append(f"{severity_text}: {response.category.value.upper()}")
+        lines.append(f"{'=' * 70}{Colors.RESET}")
+        
+        # Error message
+        lines.append(f"\n{color}{response.user_message}{Colors.RESET}\n")
+        
+        # Recovery suggestions
         if response.recovery_suggestions:
-            lines.append("RECOVERY SUGGESTIONS:")
+            lines.append(f"{Colors.BRIGHT_YELLOW}RECOVERY SUGGESTIONS:{Colors.RESET}")
             for i, suggestion in enumerate(response.recovery_suggestions, 1):
-                lines.append(f"  {i}. {suggestion}")
+                lines.append(f"  {Colors.CYAN}{i}.{Colors.RESET} {suggestion}")
             lines.append("")
         
-        lines.append("=" * 70)
+        lines.append(f"{color}{'=' * 70}{Colors.RESET}")
         
+        # Exit warning
         if response.should_exit:
-            lines.append("This is a critical error. The program will exit.")
-            lines.append("=" * 70)
+            lines.append(f"{Colors.BRIGHT_RED}{Colors.BOLD}This is a critical error. The program will exit.{Colors.RESET}")
+            lines.append(f"{color}{'=' * 70}{Colors.RESET}")
         
         return "\n".join(lines)
 

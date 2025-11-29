@@ -466,4 +466,4 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 **Made with ❤️ for the Linux community**
 
-**Version**: 1.0.5 | **Author**: C Sarath Babu | **License**: MIT
+**Version**: 1.0.6 | **Author**: C Sarath Babu | **License**: MIT
