@@ -81,7 +81,7 @@ class Config:
     
     # General settings
     project_name: str = "LFCS Practice Tool"
-    version: str = "1.0.0"
+    version: str = "1.0.4"
     default_user: str = "student"
     log_level: str = "INFO"
     

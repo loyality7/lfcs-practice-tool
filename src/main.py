@@ -23,6 +23,7 @@ from pathlib import Path
 from .cli.main_cli import CLI
 from .core.engine import Engine
 from .utils.config import load_config
+from .utils.init import initialize_workspace
 
 
 def setup_logging(logs_path: str, log_level: str = "INFO", console_output: bool = True) -> None:
@@ -113,7 +114,10 @@ def main():
             needs_docker = False
         # Note: list and stats DO need engine (for database/scenarios), so needs_docker stays True
         
-        # Step 2: Load configuration
+        # Step 2: Initialize workspace and load configuration
+        # Ensure data files exist in current directory
+        initialize_workspace(os.getcwd())
+        
         # This loads from config files and environment variables
         config = load_config()
         

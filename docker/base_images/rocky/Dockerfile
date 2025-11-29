@@ -8,6 +8,7 @@ RUN dnf install -y \
     nano \
     less \
     man-db \
+    man-pages \
     bash-completion \
     # Networking tools
     net-tools \

@@ -10,7 +10,7 @@ long_description = (this_directory / "README.md").read_text(encoding="utf-8")
 
 setup(
     name="lfcs",
-    version="1.0.0",
+    version="1.0.4",
     packages=find_packages(exclude=["tests", "tests.*", "docs", ".kiro"]),
     include_package_data=True,
     
@@ -21,6 +21,7 @@ setup(
         "python-dotenv>=1.0.0",
         "tabulate>=0.9.0",
         "colorama>=0.4.6",
+        "jinja2>=3.1.0",
     ],
     
     extras_require={
@@ -93,6 +94,15 @@ setup(
             "*.sql",
             "*.sh",
             "*.md",
+        ],
+        "src": [
+            "data/scenarios/*.yaml",
+            "data/scenarios/*/*.yaml",
+            "data/scenarios/*/*/*.yaml",
+            "data/learn_modules/*.yaml",
+            "data/learn_modules/*/*.yaml",
+            "data/schema.sql",
+            "agent/lfcs-check",
         ],
     },
     

@@ -56,106 +56,142 @@ A comprehensive CLI-based training tool designed to help you prepare for the Lin
 
 ## Quick Start
 
+Choose your installation method based on your needs:
+
+### Method 1: Simple Installation (Recommended for Users)
+
 ```bash
-# Install from PyPI
+# 1. Install from PyPI
 pip install lfcs
 
-# Clone repository for Docker files and scenarios
+# 2. Build Docker images (one-time setup)
+# Clone repository temporarily to get Docker files
 git clone https://github.com/loyality7/lfcs-practice-tool.git
-cd lfcs-practice-tool
+cd lfcs-practice-tool/docker/base_images
+./build_all.sh  # Or ./build_ubuntu_only.sh for faster setup
+cd ../../..
 
-# Build Docker base images (required for practice mode)
-cd docker/base_images
-./build_all.sh
-cd ../..
-
-# Start practicing
+# 3. Start practicing (scenarios auto-initialize on first run)
 lfcs start
 
 # Or try interactive learning mode
 lfcs learn
 ```
 
+### Method 2: Full Repository Installation (For Contributors)
+
+```bash
+# 1. Clone repository
+git clone https://github.com/loyality7/lfcs-practice-tool.git
+cd lfcs-practice-tool
+
+# 2. Install in editable mode
+pip install -e ".[dev,ai]"
+
+# 3. Build Docker images
+cd docker/base_images
+./build_all.sh
+cd ../..
+
+# 4. Start practicing
+lfcs start
+```
+
+---
+
 ## Installation
 
 ### Prerequisites
 
-- **Python 3.9+**
-- **Docker** (for practice scenarios)
-- **4GB RAM** minimum
+Before installing, ensure you have:
+
+- **Python 3.9+** - Check with `python3 --version`
+- **Docker 20.10+** - Check with `docker --version`
+- **4GB RAM** minimum (8GB recommended)
 - **10GB disk space** for Docker images
+- **Internet connection** for downloading packages and images
 
-### Step 1: Install from PyPI
+### Installation Method 1: Simple Pip Install (Recommended)
+
+**Best for**: Users who just want to practice LFCS scenarios
+
+**What you get**: Full LFCS practice tool with all scenarios and learning modules
+
+**Steps**:
+
+1. **Install the package**:
+   ```bash
+   pip install lfcs
+   
+   # Or with AI features
+   pip install lfcs[ai]
+   ```
+
+2. **Build Docker images** (one-time setup):
+   ```bash
+   # Clone repository temporarily
+   git clone https://github.com/loyality7/lfcs-practice-tool.git
+   cd lfcs-practice-tool/docker/base_images
+   
+   # Build all images (Ubuntu, CentOS, Rocky)
+   ./build_all.sh
+   
+   # Or build only Ubuntu (faster, ~5 minutes)
+   ./build_ubuntu_only.sh
+   
+   # Go back to your working directory
+   cd ../../..
+   ```
+
+3. **Verify installation**:
+   ```bash
+   lfcs --version
+   lfcs start  # Scenarios will auto-initialize on first run
+   ```
+
+**Note**: After building Docker images, you can delete the cloned repository if you want. The scenarios and learning modules are included in the pip package.
+
+### Installation Method 2: Repository Install (For Contributors)
+
+**Best for**: Developers who want to contribute or modify the code
+
+**What you get**: Full source code with editable installation
+
+**Steps**:
+
+1. **Clone repository**:
+   ```bash
+   git clone https://github.com/loyality7/lfcs-practice-tool.git
+   cd lfcs-practice-tool
+   ```
+
+2. **Install in editable mode**:
+   ```bash
+   # Install with development dependencies
+   pip install -e ".[dev,ai]"
+   ```
+
+3. **Build Docker images**:
+   ```bash
+   cd docker/base_images
+   ./build_all.sh
+   cd ../..
+   ```
+
+4. **Verify installation**:
+   ```bash
+   lfcs --version
+   lfcs start
+   ```
+
+### Optional: Enable AI Features
+
+To use AI-powered hints and validation:
 
 ```bash
-# Install the package
-pip install lfcs
-
-# Or install with AI features
-pip install lfcs[ai]
-```
-
-### Step 2: Clone Repository for Docker Files
-
-```bash
-# Clone to get Docker files, scenarios, and learning modules
-git clone https://github.com/loyality7/lfcs-practice-tool.git
-cd lfcs-practice-tool
-```
-
-**Note**: The PyPI package contains only the Python code. You need the repository for:
-- Docker base image files (`docker/base_images/`)
-- Practice scenarios (`scenarios/`)
-- Learning modules (`learn_modules/`)
-- Validation scripts (`docker/validation_scripts/`)
-
-### Step 3: Build Docker Images
-
-```bash
-# Build all distribution images (Ubuntu, CentOS, Rocky)
-cd docker/base_images
-./build_all.sh
-
-# Or build only Ubuntu (faster)
-./build_ubuntu_only.sh
-```
-
-### Step 4: Verify Installation
-
-```bash
-# Check installation
-lfcs --version
-
-# Run system check
-lfcs start
-# The tool will automatically check prerequisites
-```
-
-### Alternative: Development Installation
-
-For contributors who want to modify the code:
-
-```bash
-# Clone repository
-git clone https://github.com/loyality7/lfcs-practice-tool.git
-cd lfcs-practice-tool
-
-# Install in editable mode
-pip install -e ".[dev,ai]"
-
-# Build Docker images
-cd docker/base_images
-./build_all.sh
-```
-
-### Optional: AI Features
-
-To enable AI-powered hints and validation:
-
-```bash
-# Set your API key
+# Set your API key (choose one)
 export ANTHROPIC_API_KEY="your-api-key-here"
-# or
+# OR
 export OPENAI_API_KEY="your-api-key-here"
 
 # Start with AI mode
@@ -446,4 +482,4 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 **Made with ❤️ for the Linux community**
 
-**Version**: 1.0.0 | **Author**: C Sarath Babu | **License**: MIT
+**Version**: 1.0.4 | **Author**: C Sarath Babu | **License**: MIT

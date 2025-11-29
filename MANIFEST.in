@@ -2,16 +2,13 @@
 include config/*.yaml
 include config/*.yml
 
-# Include database schema
-include database/schema.sql
-
-# Include scenario files
-recursive-include scenarios *.yaml
-recursive-include scenarios *.yml
-
-# Include learning modules
-recursive-include learn_modules *.yaml
-recursive-include learn_modules *.yml
+# Include data files
+recursive-include src/data/scenarios *.yaml
+recursive-include src/data/scenarios *.yml
+recursive-include src/data/learn_modules *.yaml
+recursive-include src/data/learn_modules *.yml
+include src/data/schema.sql
+include src/agent/lfcs-check
 
 # Include validation scripts
 recursive-include docker/validation_scripts *.sh

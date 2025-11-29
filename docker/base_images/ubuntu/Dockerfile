@@ -4,7 +4,8 @@ FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install essential LFCS packages
-RUN apt-get update && apt-get install -y \
+RUN yes | unminimize && \
+    apt-get update && apt-get install -y \
     # System utilities
     sudo \
     vim \
